@@ -1,8 +1,8 @@
-const fs = require('fs');
+const { chromium } = require('playwright');
 
-function writeCsv(resolvedPath, data) {
-    console.log(`You chose csv`);
-    process.exit()
+const importCsv = async(url) => {
+    // build out csv
+    return [boardTitle, parsedText];
 }
 
-exports.writeCsv = writeCsv;
+exports.importCsv = importCsv;
