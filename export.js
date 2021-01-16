@@ -8,14 +8,7 @@ const exportTxt = (url, filePath) => {
     importTxt(url)
         .then(data => {
             const resolvedPath = path.resolve(filePath || `../${data.split('\n')[0].replace('/', '')}.txt`);
-            fs.writeFile(resolvedPath, data, (error) => {
-                if (error) {
-                    throw error;
-                } else {
-                    console.log(`Successfully written to file at: ${resolvedPath}`);
-                }
-                process.exit()
-            });
+            write(data, resolvedPath);
         })
         .catch(error => {
             handleError(error);
@@ -24,21 +17,25 @@ const exportTxt = (url, filePath) => {
 
 const exportCsv = (url, filePath) => {
     importCsv(url)
-        .then((title, data) => {
-            console.log(data)
-                // need to set title as resolved path
-            fs.writeFile(resolvedPath, data, (error) => {
-                if (error) {
-                    throw error;
-                } else {
-                    console.log(`Successfully written to file at: ${resolvedPath}`);
-                }
-                process.exit()
-            });
+        .then(([title, data]) => {
+            console.log("Requested filename was not used, used board title as it is not available in the csv file")
+            const resolvedPath = path.resolve(`../${title.replace(/\s/g, '')}.txt`);
+            write(data, resolvedPath);
         })
         .catch(error => {
             handleError(error);
         })
+}
+
+const write = (data, resolvedPath) => {
+    fs.writeFile(resolvedPath, data, (error) => {
+        if (error) {
+            throw error;
+        } else {
+            console.log(`Successfully written to file at: ${resolvedPath}`);
+        }
+        process.exit()
+    });
 }
 
 exports.exportTxt = exportTxt;
