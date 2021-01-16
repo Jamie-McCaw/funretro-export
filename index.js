@@ -1,7 +1,8 @@
-const fs = require('fs');
 const path = require('path');
 const minimist = require('minimist');
 const { chromium } = require('playwright');
+const { writeTxt } = require('./text.js')
+const { writeCsv } = require('./csv.js')
 
 let args = minimist(process.argv.slice(2), {
     alias: {
@@ -62,22 +63,6 @@ function writeToFile(filePath, data, exportType) {
         default:
             writeTxt(resolvedPath, data)
     }
-}
-
-function writeTxt(resolvedPath, data) {
-    fs.writeFile(resolvedPath, data, (error) => {
-        if (error) {
-            throw error;
-        } else {
-            console.log(`Successfully written to file at: ${resolvedPath}`);
-        }
-        process.exit()
-    });
-}
-
-function writeCsv(resolvedPath, data) {
-    console.log(`You chose csv`);
-    process.exit()
 }
 
 function handleError(error) {
