@@ -1,18 +1,25 @@
 const fs = require('fs');
 const path = require('path');
+const minimist = require('minimist');
 const { chromium } = require('playwright');
 
-const [url, file, exportType] = process.argv.slice(2);
+let args = minimist(process.argv.slice(2), {
+    alias: {
+        u: 'url',
+        f: 'file',
+        e: 'exportType'
+    }
+});
 
-if (!url) {
-    throw 'Please provide a URL as the first argument.';
+if (!args.url) {
+    throw `Please provide a URL with '-u "<url>"'`;
 }
 
 async function run() {
     const browser = await chromium.launch();
     const page = await browser.newPage();
 
-    await page.goto(url);
+    await page.goto(args.url);
     await page.waitForSelector('.message-list');
 
     const boardTitle = await page.$eval('#board-name', (node) => node.innerText.trim());
@@ -48,7 +55,6 @@ async function run() {
 function writeToFile(filePath, data, exportType) {
     const resolvedPath = path.resolve(filePath || `../${data.split('\n')[0].replace('/', '')}.txt`);
     switch (exportType) {
-
         case "csv":
             writeCsv(resolvedPath, data)
             break;
@@ -78,4 +84,4 @@ function handleError(error) {
     console.error(error);
 }
 
-run().then((data) => writeToFile(file, data, exportType)).catch(handleError);
+run().then((data) => writeToFile(args.file, data, args.exportType)).catch(handleError);
