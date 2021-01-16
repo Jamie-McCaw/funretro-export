@@ -48,12 +48,11 @@ async function run() {
 function writeToFile(filePath, data, exportType) {
     const resolvedPath = path.resolve(filePath || `../${data.split('\n')[0].replace('/', '')}.txt`);
     switch (exportType) {
-        case "txt":
-            writeTxt(resolvedPath, data)
-            break;
+
         case "csv":
             writeCsv(resolvedPath, data)
             break;
+        case "txt":
         default:
             writeTxt(resolvedPath, data)
     }
