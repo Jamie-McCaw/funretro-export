@@ -9,10 +9,16 @@
 It's required to have [npm](https://www.npmjs.com/get-npm) installed locally to follow the instructions.
 
 ```shell
-git clone https://github.com/julykaz/funretro-export.git
+git clone https://github.com/Jamie-McCaw/funretro-export
 cd funretro-export
 npm install
-npm start -- "http://funretro.io/board..." "../exported-file.txt"
+npm start -- -u "http://funretro.io/board..." -e "csv"
+```
+
+```shell
+-u || -url        : Required and will error out if not provided, 
+-f || -file       : Optional, will export to provided filename. Defaults to board title(Currently only works for txt)
+-e || -exportType : Optional, defaults to 'txt'. Current choices are 'txt' and 'csv'.
 ```
 
 ## TODO
