@@ -17,11 +17,7 @@ const importCsv = async(url) => {
     const columns = await page.$$('.message-list');
     for (let i = 0; i < columns.length; i++) {
         const columnTitle = await columns[i].$eval('.column-header', (node) => node.innerText.trim());
-        if (i === columns.length - 1) {
-            parsedText += columnTitle;
-        } else {
-            parsedText += columnTitle + ",";
-        }
+        i === columns.length - 1 ? parsedText += columnTitle : parsedText += columnTitle + ',';
     }
     parsedText += "\n";
     let boardCols = [];
@@ -37,27 +33,38 @@ const importCsv = async(url) => {
         boardCols.push(boardCol);
     }
 
+    let maxLength = getColumnsMaxlength(boardCols);
+
+    for (let i = 0; i < maxLength; i++) {
+        parsedText += createMessagesRow(boardCols, i)
+    }
+    return [boardTitle, parsedText];
+}
+
+const getColumnsMaxlength = (boardCols) => {
     let maxLength = 0;
     boardCols.forEach(boardCol => {
         if (boardCol.length > maxLength) {
             maxLength = boardCol.length;
         }
     })
+    return maxLength;
+}
 
-    for (let i = 0; i < maxLength; i++) {
-        boardCols.forEach((boardCol, index) => {
-            if (boardCol.length > i) {
-                if (boardCol[i].votes > 0) {
-                    parsedText += `"${boardCol[i].message}"`;
-                }
+const createMessagesRow = (boardCols, i) => {
+    let messagesRow = "";
+    boardCols.forEach((boardCol, index) => {
+        if (boardCol.length > i) {
+            if (boardCol[i].votes > 0) {
+                messagesRow += `"${boardCol[i].message}"`;
             }
-            if (boardCols.length !== index + 1) {
-                parsedText += ',';
-            }
-        })
-        parsedText += "\n";
-    }
-    return [boardTitle, parsedText];
+        }
+        if (boardCols.length !== index + 1) {
+            messagesRow += ',';
+        }
+    })
+    messagesRow += "\n";
+    return messagesRow
 }
 
 exports.importCsv = importCsv;

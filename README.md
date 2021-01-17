@@ -15,9 +15,11 @@ npm install
 npm start -- -u "http://funretro.io/board..." -e "csv"
 ```
 
+Went with the contraint of keeping the tool working the same way it originally worked with adding argument flags to allow for leaving off arguments if desired even when there are more than 2 arguments.
+
 ```shell
 -u || -url        : Required and will error out if not provided, 
--f || -file       : Optional, will export to provided filename. Defaults to board title(Currently only works for txt)
+-f || -file       : Optional, will export to provided filename. Defaults to board title(Currently only works for 'txt')
 -e || -exportType : Optional, defaults to 'txt'. Current choices are 'txt' and 'csv'.
 ```
 
