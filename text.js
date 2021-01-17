@@ -10,7 +10,7 @@ const importTxt = async(url) => {
     const boardTitle = await page.$eval('#board-name', (node) => node.innerText.trim());
 
     if (!boardTitle) {
-        throw 'Board title does not exist. Please check if provided URL is correct.'
+        throw 'Board title does not exist. Please check if provided URL is correct.';
     }
 
     let parsedText = boardTitle + '\n\n';
@@ -37,4 +37,4 @@ const importTxt = async(url) => {
     return parsedText;
 }
 
-exports.importTxt = importTxt;
+module.exports = { importTxt };

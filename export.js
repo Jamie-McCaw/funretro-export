@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const { handleError } = require('./error.js');
-const { importTxt } = require('./text.js')
-const { importCsv } = require('./csv.js')
+const { handleError } = require('./error');
+const { importTxt } = require('./text');
+const { importCsv } = require('./csv');
 
 const exportTxt = (url, filePath) => {
     importTxt(url)
@@ -19,7 +19,7 @@ const exportCsv = (url, filePath) => {
     importCsv(url)
         .then(([title, data]) => {
             if (filePath) {
-                console.log("Requested filename was not used, using board title as it is not available in the csv file")
+                console.log("Requested filename was not used, using board title as it is not available in the csv file");
             }
             const resolvedPath = path.resolve(`../${title.replace(/\s/g, '')}.csv`);
             write(data, resolvedPath);
@@ -36,9 +36,8 @@ const write = (data, resolvedPath) => {
         } else {
             console.log(`Successfully written to file at: ${resolvedPath}`);
         }
-        process.exit()
+        process.exit();
     });
 }
 
-exports.exportTxt = exportTxt;
-exports.exportCsv = exportCsv;
+module.exports = { exportTxt, exportCsv };
