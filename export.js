@@ -18,8 +18,10 @@ const exportTxt = (url, filePath) => {
 const exportCsv = (url, filePath) => {
     importCsv(url)
         .then(([title, data]) => {
-            console.log("Requested filename was not used, used board title as it is not available in the csv file")
-            const resolvedPath = path.resolve(`../${title.replace(/\s/g, '')}.txt`);
+            if (filePath) {
+                console.log("Requested filename was not used, using board title as it is not available in the csv file")
+            }
+            const resolvedPath = path.resolve(`../${title.replace(/\s/g, '')}.csv`);
             write(data, resolvedPath);
         })
         .catch(error => {
