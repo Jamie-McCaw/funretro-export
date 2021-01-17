@@ -1,5 +1,5 @@
 const minimist = require('minimist');
-const { exportTxt, exportCsv } = require('./export.js');
+const { exportTxt, exportCsv } = require('./export');
 
 let args = minimist(process.argv.slice(2), {
     alias: {
@@ -13,14 +13,14 @@ if (!args.url) {
     throw `Please provide a URL with '-u "<url>"'`;
 }
 
-function run() {
+const run = () => {
     switch (args.exportType) {
         case "csv":
-            exportCsv(args.url, args.file)
+            exportCsv(args.url, args.file);
             break;
         case "txt":
         default:
-            exportTxt(args.url, args.file)
+            exportTxt(args.url, args.file);
     }
 }
 

@@ -27,7 +27,7 @@ const importCsv = async(url) => {
         for (let i = 0; i < messages.length; i++) {
             const messageText = await messages[i].$eval('.message-body .text', (node) => node.innerText.trim());
             const votes = await messages[i].$eval('.votes .vote-area span.show-vote-count', (node) => node.innerText.trim());
-            let card = { message: messageText, votes: votes }
+            let card = { message: messageText, votes: votes };
             boardCol.push(card);
         }
         boardCols.push(boardCol);
@@ -36,7 +36,7 @@ const importCsv = async(url) => {
     let maxLength = getColumnsMaxlength(boardCols);
 
     for (let i = 0; i < maxLength; i++) {
-        parsedText += createMessagesRow(boardCols, i)
+        parsedText += createMessagesRow(boardCols, i);
     }
     return [boardTitle, parsedText];
 }
@@ -64,7 +64,7 @@ const createMessagesRow = (boardCols, i) => {
         }
     })
     messagesRow += "\n";
-    return messagesRow
+    return messagesRow;
 }
 
-exports.importCsv = importCsv;
+module.exports = { importCsv };

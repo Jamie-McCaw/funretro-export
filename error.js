@@ -1,5 +1,5 @@
-function handleError(error) {
-    console.error(error);
-}
+ const handleError = (error) => {
+     console.error(error);
+ }
 
-exports.handleError = handleError;
+ module.exports = { handleError };
